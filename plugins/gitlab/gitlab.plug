@@ -1,0 +1,9 @@
+[Core]
+Name = Gitlab
+Module = gitlab
+
+[Documentation]
+Description = Listen event from gitlab.
+
+[Python]
+Version = 2+
