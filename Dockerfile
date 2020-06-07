@@ -1,4 +1,4 @@
-FROM alpine3.7
+FROM alpine-3.7
 MAINTAINER yaphetsglhf@gmail.com
 
 RUN set -xe \
