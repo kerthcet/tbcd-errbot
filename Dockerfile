@@ -37,4 +37,4 @@ COPY . ${WORKDIR}/
 
 VOLUME ${WORKDIR}
 
-ENTRYPOINT ["errbot"]
+ENTRYPOINT ["errbot --daemon"]

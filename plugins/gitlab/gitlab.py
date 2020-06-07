@@ -6,6 +6,10 @@ TEKTON_URL = ""
 
 
 class Gitlab(BotPlugin):
+    @webhook("/ci/ping")
+    def trigger(self, request):
+        return "pong"
+
     @webhook("/ci/<action>/")
     def trigger(self, request, action):
         if action == "trigger":

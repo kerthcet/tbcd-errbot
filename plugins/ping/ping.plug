@@ -1,9 +1,0 @@
-[Core]
-Name = Ping
-Module = ping
-
-[Documentation]
-Description = Health check
-
-[Python]
-Version = 2+
