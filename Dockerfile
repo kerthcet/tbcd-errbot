@@ -35,7 +35,6 @@ RUN set -xe \
 
 COPY . ${WORKDIR}/
 
-USER errbot
 VOLUME ${WORKDIR}
 
 ENTRYPOINT ["errbot"]
