@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine3.7
 MAINTAINER yaphetsglhf@gmail.com
 
 RUN set -xe \
@@ -8,8 +8,8 @@ RUN set -xe \
                           libffi-dev \
                           openssl \
                           openssl-dev \
-                          python3 \
                           python3-dev \
+    && apk add --no-cache --update python3 &&
     && pip3 install -U pip \
     && pip3 install errbot \
                     hypchat \
@@ -19,6 +19,7 @@ RUN set -xe \
                     python-telegram-bot \
                     slackclient \
                     sleekxmpp \
+                    requests \
     && adduser -s /bin/sh -D errbot \
     && apk del --purge build-base \
                        libffi-dev \

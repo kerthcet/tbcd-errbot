@@ -5,4 +5,6 @@
 #### Step4: RUN !restart
 #### Step5: RUN curl -X POST http://localhost:3141/ping
 
-DockerRepository: yaphetsglhf/chatops-errbot:1.0
+## How To Use
+#### Step1: RUN docker pull yaphetsglhf/chatops-errbot:1.0
+#### Step2: docker run -it -p 3141:3141 chatops-errbot:1.0

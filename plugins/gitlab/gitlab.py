@@ -1,4 +1,8 @@
 from errbot import BotPlugin, webhook
+import requests
+import json
+
+TEKTON_URL = ""
 
 
 class Gitlab(BotPlugin):
@@ -31,10 +35,15 @@ class Gitlab(BotPlugin):
     def read_user_name(self, body):
         return body['user_name']
 
-    def get_git_ssh_url():
+    def get_git_ssh_url(self, body):
         try:
             url = body['project']['git_ssh_url']
         except:
             url = ""
         finally:
             return url
+
+    def post_tekton(self, body):
+        payload = {'key1': 'value1', 'key2': 'value2'}
+        r = requests.post(TEKTON_URL, data=json.dumps(payload))
+        return r.text
