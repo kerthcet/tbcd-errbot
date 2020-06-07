@@ -9,7 +9,7 @@ RUN set -xe \
                           openssl \
                           openssl-dev \
                           python3-dev \
-    && apk add --no-cache --update python3 &&
+    && apk add --no-cache --update python3 \
     && pip3 install -U pip \
     && pip3 install errbot \
                     hypchat \
