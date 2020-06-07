@@ -25,7 +25,6 @@ RUN set -xe \
                        openssl-dev \
                        python3-dev
 
-
 ARG WORKDIR=/home/errbot
 WORKDIR ${WORKDIR}
 
