@@ -10,18 +10,18 @@ class Gitlab(BotPlugin):
     def trigger(self, request):
         return "pong"
 
-    @webhook("/ci/<action>/")
+    @webhook("/ci/<action>/", raw=True)
     def trigger(self, request, action):
-        body = request["body"]
-        if action == "trigger":
-            self.log.debug(action)
+        body = json.loads(request.data)
 
+        if action == "trigger":
             transformer["short_checkout_sha"] = self.read_short_commit_sha(
                 body)
             transformer["project_name"] = self.read_repository_name(body)
 
             body["transformer"] = transformer
             resp = self.post_tekton(body)
+
             return {"code": 0, "msg": "success", "data": resp}
         return {"code": -1, "msg": "error action"}
 
