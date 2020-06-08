@@ -2,7 +2,7 @@ from errbot import BotPlugin, webhook
 import requests
 import json
 
-TEKTON_URL = ""
+TEKTON_URL = "http://el-tbcd:80"
 
 
 class Gitlab(BotPlugin):
@@ -12,10 +12,18 @@ class Gitlab(BotPlugin):
 
     @webhook("/ci/<action>/")
     def trigger(self, request, action):
+        body = request["body"]
         if action == "trigger":
             self.log.debug(action)
-            return repr(request)
-        return "Error action"
+
+            transformer["short_checkout_sha"] = self.read_short_commit_sha(
+                body)
+            transformer["project_name"] = self.read_repository_name(body)
+
+            body["transformer"] = transformer
+            resp = self.post_tekton(body)
+            return {"code": 0, "msg": "success", "data": resp}
+        return {"code": -1, "msg": "error action"}
 
     def read_repository_name(self, body):
         self.read_project_name(body).lower()
@@ -26,7 +34,7 @@ class Gitlab(BotPlugin):
         except:
             project_name = ''
         finally:
-            return project_name.lower()
+            return project_name
 
     def read_short_commit_sha(self, body):
         try:
@@ -36,18 +44,6 @@ class Gitlab(BotPlugin):
         finally:
             return sha[0:7]
 
-    def read_user_name(self, body):
-        return body['user_name']
-
-    def get_git_ssh_url(self, body):
-        try:
-            url = body['project']['git_ssh_url']
-        except:
-            url = ""
-        finally:
-            return url
-
     def post_tekton(self, body):
-        payload = {'key1': 'value1', 'key2': 'value2'}
-        r = requests.post(TEKTON_URL, data=json.dumps(payload))
+        r = requests.post(TEKTON_URL, data=json.dumps(body))
         return r.text
