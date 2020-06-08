@@ -2,7 +2,7 @@ from errbot import BotPlugin, webhook
 import requests
 import json
 
-TEKTON_URL = "http://el-tbcd:80"
+TEKTON_URL = "http://el-tbcd:8080"
 
 
 class Gitlab(BotPlugin):
