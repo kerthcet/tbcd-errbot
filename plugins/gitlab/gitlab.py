@@ -15,17 +15,14 @@ class Gitlab(BotPlugin):
         body = json.loads(request.data)
 
         if action == "trigger":
-            transformer["short_checkout_sha"] = self.read_short_commit_sha(
-                body)
-            transformer["project_name"] = self.read_repository_name(body)
-
-            body["transformer"] = transformer
+            self.trim_checkout_sha(body)
+            self.lower_repository_name(body)
             resp = self.post_tekton(body)
 
             return {"code": 0, "msg": "success", "data": resp}
         return {"code": -1, "msg": "error action"}
 
-    def read_repository_name(self, body):
+    def lower_repository_name(self, body):
         self.read_project_name(body).lower()
 
     def read_project_name(self, body):
@@ -36,7 +33,7 @@ class Gitlab(BotPlugin):
         finally:
             return project_name
 
-    def read_short_commit_sha(self, body):
+    def trim_checkout_sha(self, body):
         try:
             sha = body['checkout_sha']
         except:

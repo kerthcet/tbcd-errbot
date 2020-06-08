@@ -6,5 +6,5 @@
 #### Step5: RUN curl -X POST http://localhost:3141/ping
 
 ## How To Use
-#### Step1: RUN docker pull yaphetsglhf/chatops-errbot:1.0
-#### Step2: docker run -it -p 3141:3141 chatops-errbot:1.0
+#### Step1: RUN docker pull yaphetsglhf/chatops-errbot:tag
+#### Step2: docker run -it -p 3141:3141 chatops-errbot:tag
