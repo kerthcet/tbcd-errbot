@@ -13,12 +13,11 @@ class Gitlab(BotPlugin):
     @webhook("/ci/<action>/", raw=True)
     def trigger(self, request, action):
         body = json.loads(request.data)
-        headers = json.loads(request.headers)
 
         if action == "trigger":
             self.trim_checkout_sha(body)
             self.lower_repository_name(body)
-            resp = self.post_tekton(headers, body)
+            resp = self.post_tekton(body)
 
             return {"code": 0, "msg": "success", "data": resp}
         return {"code": -1, "msg": "error action"}
@@ -42,7 +41,11 @@ class Gitlab(BotPlugin):
         finally:
             return sha[0:7]
 
-    def post_tekton(self, headers, body):
+    def post_tekton(self, body):
+        headers = {
+            "X-Gitlab-Event": "Push Hook",
+            "Content-Type": "application/json"
+        }
         r = requests.post(TEKTON_URL,
                           headers=json.dumps(headers),
                           data=json.dumps(body))
