@@ -23,28 +23,15 @@ class Gitlab(BotPlugin):
         return {"code": -1, "msg": "error action"}
 
     def lower_repository_name(self, body):
-        self.read_project_name(body).lower()
-
-    def read_project_name(self, body):
-        try:
-            project_name = body['project']['name']
-        except:
-            project_name = ''
-        finally:
-            return project_name
+        body['project']['name'] = body['project']['name'].lower()
 
     def trim_checkout_sha(self, body):
-        try:
-            sha = body['checkout_sha']
-        except:
-            sha = ""
-        finally:
-            return sha[0:7]
+        body['checkout_sha'] = body['checkout_sha'][0:7]
 
     def post_tekton(self, body):
         headers = {
+            "Content-Type": "application/json",
             "X-Gitlab-Event": "Push Hook",
-            "Content-Type": "application/json"
         }
         r = requests.post(TEKTON_URL, headers=headers, data=json.dumps(body))
         return r.text
