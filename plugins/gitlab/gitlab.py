@@ -13,6 +13,7 @@ class Gitlab(BotPlugin):
     @webhook("/ci/<action>/", raw=True)
     def trigger(self, request, action):
         body = json.loads(request.data)
+        body["transformer"] = {}
 
         if action == "trigger":
             self.trim_checkout_sha(body)
@@ -23,10 +24,10 @@ class Gitlab(BotPlugin):
         return {"code": -1, "msg": "error action"}
 
     def lower_repository_name(self, body):
-        body['project']['name'] = body['project']['name'].lower()
+        body['transformer']['project_name'] = body['project']['name'].lower()
 
     def trim_checkout_sha(self, body):
-        body['checkout_sha'] = body['checkout_sha'][0:7]
+        body['transformer']['checkout_sha'] = body['checkout_sha'][0:7]
 
     def post_tekton(self, body):
         headers = {
