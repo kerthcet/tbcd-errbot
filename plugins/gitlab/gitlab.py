@@ -17,7 +17,7 @@ class Gitlab(BotPlugin):
         if action == "trigger":
             self.trim_checkout_sha(body)
             self.lower_repository_name(body)
-            resp = self.post_tekton(body)
+            resp = self.post_tekton(request.headers, body)
 
             return {"code": 0, "msg": "success", "data": resp}
         return {"code": -1, "msg": "error action"}
@@ -41,6 +41,8 @@ class Gitlab(BotPlugin):
         finally:
             return sha[0:7]
 
-    def post_tekton(self, body):
-        r = requests.post(TEKTON_URL, data=json.dumps(body))
+    def post_tekton(self, headers, body):
+        r = requests.post(TEKTON_URL,
+                          headers=json.dumps(headers),
+                          data=json.dumps(body))
         return r.text
