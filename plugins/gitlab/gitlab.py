@@ -46,7 +46,5 @@ class Gitlab(BotPlugin):
             "X-Gitlab-Event": "Push Hook",
             "Content-Type": "application/json"
         }
-        r = requests.post(TEKTON_URL,
-                          headers=json.dumps(headers),
-                          data=json.dumps(body))
+        r = requests.post(TEKTON_URL, headers=headers, data=json.dumps(body))
         return r.text
