@@ -13,11 +13,12 @@ class Gitlab(BotPlugin):
     @webhook("/ci/<action>/", raw=True)
     def trigger(self, request, action):
         body = json.loads(request.data)
+        headers = json.loads(request.headers)
 
         if action == "trigger":
             self.trim_checkout_sha(body)
             self.lower_repository_name(body)
-            resp = self.post_tekton(request.headers, body)
+            resp = self.post_tekton(headers, body)
 
             return {"code": 0, "msg": "success", "data": resp}
         return {"code": -1, "msg": "error action"}
