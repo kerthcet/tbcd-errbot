@@ -1,0 +1,9 @@
+[Core]
+Name = Channel
+Module = channel
+
+[Documentation]
+Description = Chat Channel
+
+[Python]
+Version = 2+
