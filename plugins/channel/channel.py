@@ -45,15 +45,16 @@ class Channel(BotPlugin):
             "Content-Type": "application/json",
         }
 
-        content = "##Project: %s \n> Repo: %s \n\n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
+        content = "## Project: %s \n> Repo: %s \n\n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
             project, repositoryURL, "success", username, message)
         # TODO @somebody
         payload = {
             "msgtype": "markdown",
             "markdown": {
-                "title": "【%s】镜像构建-success" % project,
+                "title": "构建-success",
                 "text": content,
             },
         }
         r = requests.post(targetURL, headers=headers, data=json.dumps(payload))
+        self.log.info("post dingtalk response: ", r.text)
         return r.text
