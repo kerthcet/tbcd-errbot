@@ -21,6 +21,10 @@ class Gitlab(BotPlugin):
             resp = self.post_tekton(body)
 
             return {"code": 0, "msg": "success", "data": resp}
+
+        if action == "nofity":
+            return {"code": 0, "msg": "success", "data": body}
+
         return {"code": -1, "msg": "error action"}
 
     def lower_repository_name(self, body):
