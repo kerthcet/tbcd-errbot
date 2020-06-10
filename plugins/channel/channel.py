@@ -45,13 +45,15 @@ class Channel(BotPlugin):
             "Content-Type": "application/json",
         }
 
-        content = "【%s】 Build Image Success @%s\n【Repository】 %s\n【Commit】 %s" % (
-            project, username, repositoryURL, message)
+        content = "##Project: %s \n> Repo: %s \n\n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
+            project, repositoryURL, "success", username, message)
+        # TODO @somebody
         payload = {
-            "msgtype": "text",
-            "text": {
-                "content": content,
-            }
+            "msgtype": "markdown",
+            "markdown": {
+                "title": "【%s】镜像构建-success" % project,
+                "text": content,
+            },
         }
         r = requests.post(targetURL, headers=headers, data=json.dumps(payload))
         return r.text
