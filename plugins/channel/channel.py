@@ -56,5 +56,5 @@ class Channel(BotPlugin):
             },
         }
         r = requests.post(targetURL, headers=headers, data=json.dumps(payload))
-        self.log.info("post dingtalk response: ", r.text)
+        self.log.info("post dingtalk response: %s", r.text)
         return r.text
