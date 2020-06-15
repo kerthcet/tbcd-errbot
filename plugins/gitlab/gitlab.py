@@ -23,7 +23,7 @@ class Gitlab(BotPlugin):
         body['transformer']['project_name'] = body['project']['name'].lower()
 
     def trim_checkout_sha(self, body):
-        body['transformer']['checkout_sha'] = body['checkout_sha'][0:7]
+        body['transformer']['checkout_sha'] = body['checkout_sha'][0:8]
 
     def post_tekton(self, body):
         headers = {
