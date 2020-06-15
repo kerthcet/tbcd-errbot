@@ -51,7 +51,7 @@ class Channel(BotPlugin):
         payload = {
             "msgtype": "markdown",
             "markdown": {
-                "title": "构建-success",
+                "title": "%s👷 ✅" % project,
                 "text": content,
             },
         }
