@@ -20,10 +20,11 @@ class Gitlab(BotPlugin):
         return {"code": -1, "msg": "error action"}
 
     def lower_repository_name(self, body):
-        body['transformer']['project_name'] = body['project']['name'].lower()
+        project_name = body['project']['name']
+        body['transformer']['project_name'] = project_name.replace("-", "")
 
     def trim_checkout_sha(self, body):
-        body['transformer']['checkout_sha'] = body['checkout_sha'][0:8]
+        body['transformer']['checkout_sha'] = body['checkout_sha'][0:10]
 
     def post_tekton(self, body):
         headers = {
