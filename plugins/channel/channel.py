@@ -22,10 +22,10 @@ class Channel(BotPlugin):
             if param["name"] == "message":
                 message = param["value"]
 
-        success = body["taskRun"]["status"]["conditions"][0]["type"]
-        if success != "Succeeded":
+        success = body["taskRun"]["status"]["conditions"][0]["status"]
+        if success != "True":
             title = "%s🤖 ❎" % project,
-            content = "## TBCD Test: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
+            content = "## Project Test: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
                 project, "failure🚨🚨🚨", username, message)
             return {
                 "code": -1,
@@ -34,8 +34,8 @@ class Channel(BotPlugin):
             }
 
         title = "%s🤖 ✅" % project,
-        content = "## TBCD Test: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
-            project, repositoryURL, "success🎉🎉🎉", username, message)
+        content = "## Project Test: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
+            project, "success🎉🎉🎉", username, message)
         return {
             "code": 0,
             "msg": "OK",
@@ -63,10 +63,10 @@ class Channel(BotPlugin):
             if param["name"] == "message":
                 message = param["value"]
 
-        success = body["taskRun"]["status"]["conditions"][0]["type"]
-        if success != "Succeeded":
+        success = body["taskRun"]["status"]["conditions"][0]["status"]
+        if success != "True":
             title = "%s👷 ❎" % project,
-            content = "## TBCD Build: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
+            content = "## Project Build: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
                 project, "failure🚨🚨🚨", username, message)
             return {
                 "code": -1,
@@ -75,7 +75,7 @@ class Channel(BotPlugin):
             }
 
         title = "%s👷 ✅" % project,
-        content = "## TBCD Build: %s \n> Repo: %s \n\n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
+        content = "## Project Build: %s \n> Repo: %s \n\n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
             project, repositoryURL, "success🎉🎉🎉", username, message)
         return {
             "code": 0,
