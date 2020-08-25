@@ -25,7 +25,7 @@ class Channel(BotPlugin):
         success = body["taskRun"]["status"]["conditions"][0]["status"]
         if success != "True":
             title = "%s🤖 ❎" % project,
-            content = "## Project Test: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
+            content = "## 🤖 Test: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
                 project, "failure🚨🚨🚨", username, message)
             return {
                 "code": -1,
@@ -34,7 +34,7 @@ class Channel(BotPlugin):
             }
 
         title = "%s🤖 ✅" % project,
-        content = "## Project Test: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
+        content = "## 🤖 Test: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
             project, "success🎉🎉🎉", username, message)
         return {
             "code": 0,
@@ -66,7 +66,7 @@ class Channel(BotPlugin):
         success = body["taskRun"]["status"]["conditions"][0]["status"]
         if success != "True":
             title = "%s👷 ❎" % project,
-            content = "## Project Build: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
+            content = "## 👷‍♂️ Build: %s \n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
                 project, "failure🚨🚨🚨", username, message)
             return {
                 "code": -1,
@@ -75,7 +75,7 @@ class Channel(BotPlugin):
             }
 
         title = "%s👷 ✅" % project,
-        content = "## Project Build: %s \n> Repo: %s \n\n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
+        content = "## 👷‍♂️ Build: %s \n> Repo: %s \n\n> Status: %s \n\n> Committer: %s \n\n> Message: %s" % (
             project, repositoryURL, "success🎉🎉🎉", username, message)
         return {
             "code": 0,
