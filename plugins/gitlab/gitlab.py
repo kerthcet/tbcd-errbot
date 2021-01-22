@@ -21,8 +21,7 @@ class Gitlab(BotPlugin):
 
     def lower_repository_name(self, body):
         project_name = body['project']['name']
-        body['transformer']['project_name'] = project_name.replace("-",
-                                                                   "").lower()
+        body['transformer']['project_name'] = project_name.lower()
 
     def trim_checkout_sha(self, body):
         body['transformer']['checkout_sha'] = body['checkout_sha'][0:10]
