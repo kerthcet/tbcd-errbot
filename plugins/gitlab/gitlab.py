@@ -51,7 +51,7 @@ class Gitlab(BotPlugin):
         body['transformer']['checkout_sha'] = body['checkout_sha'][0:10]
 
     def get_bumpversion(self, body):
-        length = len(body['commit'])
+        length = len(body['commits'])
         for i in range(length - 1, -1, -1):
             msg = i['message']
             if BUMP_KEY_WORDS in msg:
