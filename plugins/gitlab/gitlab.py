@@ -53,7 +53,8 @@ class Gitlab(BotPlugin):
     def get_bumpversion(self, body):
         length = len(body['commits'])
         for i in range(length - 1, -1, -1):
-            msg = i['message']
+            m = body['commits'][i]
+            msg = m['message']
             if BUMP_KEY_WORDS in msg:
                 version = msg.split(" ")[-1]
                 return version, True
