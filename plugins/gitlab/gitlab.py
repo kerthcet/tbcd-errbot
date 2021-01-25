@@ -4,6 +4,9 @@ import json
 
 TEKTON_URL = "http://el-tbcd:8080"
 BUMP_KEY_WORDS = 'Bump version'
+TINY_NS = "Tiny"
+TINY_IAC_URL = 'git@git.kid17.com:tiny/iac.git'
+KID_IAC_URL = 'git@git.kid17.com:ops/iac.git'
 
 
 class Gitlab(BotPlugin):
@@ -49,6 +52,14 @@ class Gitlab(BotPlugin):
 
     def trim_checkout_sha(self, body):
         body['transformer']['checkout_sha'] = body['checkout_sha'][0:10]
+
+    def get_iac_url(self, body):
+        namespace = body['project']['namespace']
+        if namespace == TINY_NS:
+            body['transformer']['iacRepoUrl'] = TINY_IAC_URL
+            return
+
+        body['transformer']['iacRepoUrl'] = KID_IAC_URL
 
     def get_bumpversion(self, body):
         length = len(body['commits'])
