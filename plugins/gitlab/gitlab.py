@@ -57,7 +57,7 @@ class Gitlab(BotPlugin):
             msg = m['message']
             if BUMP_KEY_WORDS in msg:
                 version = msg.split(" ")[-1]
-                return version, True
+                return version.split("\n")[0], True
 
         return "", False
 
