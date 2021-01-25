@@ -3,6 +3,7 @@ import requests
 import json
 
 TEKTON_URL = "http://el-tbcd:8080"
+BUMP_KEY_WORDS = 'Bump version'
 
 
 class Gitlab(BotPlugin):
@@ -14,6 +15,16 @@ class Gitlab(BotPlugin):
             body["transformer"] = {}
             self.trim_checkout_sha(body)
             self.lower_repository_name(body)
+
+            version, flag = self.get_bumpversion(body)
+            if not flag:
+                return {
+                    "code": 0,
+                    "msg": "success",
+                    "data": "no need to build"
+                }
+
+            body["transformer"]["version"] = version
             resp = self.post_tekton(body)
 
             return {"code": 0, "msg": "success", "data": resp}
@@ -25,6 +36,16 @@ class Gitlab(BotPlugin):
 
     def trim_checkout_sha(self, body):
         body['transformer']['checkout_sha'] = body['checkout_sha'][0:10]
+
+    def get_bumpversion(self, body):
+        length = len(body['commit'])
+        for i in range(length - 1, -1, -1):
+            msg = i['message']
+            if BUMP_KEY_WORDS in msg:
+                version = msg.split(" ")[-1]
+                return version, True
+
+        return "", False
 
     def post_tekton(self, body):
         headers = {
