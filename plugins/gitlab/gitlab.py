@@ -25,6 +25,7 @@ class Gitlab(BotPlugin):
                 }
 
             body["transformer"]["version"] = version
+            body["transformer"]["ns"] = self.get_ns(version)
             resp = self.post_tekton(body)
 
             return {"code": 0, "msg": "success", "data": resp}
@@ -33,6 +34,18 @@ class Gitlab(BotPlugin):
     def lower_repository_name(self, body):
         project_name = body['project']['name']
         body['transformer']['project_name'] = project_name.lower()
+
+    def get_ns(self, version):
+        if "dev" in version:
+            return "dev"
+
+        if "qa" in version:
+            return "qa"
+
+        if "rc" in version:
+            return "rc"
+
+        return "prod"
 
     def trim_checkout_sha(self, body):
         body['transformer']['checkout_sha'] = body['checkout_sha'][0:10]
