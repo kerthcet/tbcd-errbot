@@ -18,6 +18,7 @@ class Gitlab(BotPlugin):
             body["transformer"] = {}
             self.trim_checkout_sha(body)
             self.lower_repository_name(body)
+            self.get_iac_url(body)
 
             version, flag = self.get_bumpversion(body)
             if not flag:
