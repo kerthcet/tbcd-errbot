@@ -53,13 +53,13 @@ class Gitlab(BotPlugin):
         return "prod"
 
     def get_message(self, body):
-        l = []
+        res = ""
 
         for i in range(len(body['commits']) - 1, -1, -1):
             m = body['commits'][i]
-            l.append(m['message'] + '\n')
+            res += m['message'] + '\n'
 
-        return l
+        return res
 
     def trim_checkout_sha(self, body):
         body['transformer']['checkout_sha'] = body['checkout_sha'][0:10]
