@@ -57,7 +57,7 @@ class Gitlab(BotPlugin):
 
         for i in range(len(body['commits']) - 1, -1, -1):
             m = body['commits'][i]
-            res += m['message'] + '    \n'
+            res += m['message'].split("\n")[0] + '    \n'
 
         return res
 
