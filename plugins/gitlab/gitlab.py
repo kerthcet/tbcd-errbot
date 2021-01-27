@@ -30,6 +30,7 @@ class Gitlab(BotPlugin):
 
             body["transformer"]["version"] = version
             body["transformer"]["ns"] = self.get_ns(version)
+            body["transformer"]["message"] = self.get_message(body)
             resp = self.post_tekton(body)
 
             return {"code": 0, "msg": "success", "data": resp}
@@ -51,6 +52,15 @@ class Gitlab(BotPlugin):
 
         return "prod"
 
+    def get_message(self, body):
+        l = []
+
+        for i in range(len(body['commits']) - 1, -1, -1):
+            m = body['commits'][i]
+            l.append(m['message'] + '\n')
+
+        return l
+
     def trim_checkout_sha(self, body):
         body['transformer']['checkout_sha'] = body['checkout_sha'][0:10]
 
@@ -65,11 +75,11 @@ class Gitlab(BotPlugin):
     def get_bumpversion(self, body):
         length = len(body['commits'])
         for i in range(length - 1, -1, -1):
-            m = body['commits'][i]
-            msg = m['message']
-            if BUMP_KEY_WORDS in msg:
-                version = msg.split(" ")[-1]
-                return version.split("\n")[0], True
+            msg = body['commits'][i]
+
+            for m in msg['message'].split('\n'):
+                if BUMP_KEY_WORDS in m:
+                    return m.split(" ")[-1], True
 
         return "", False
 
