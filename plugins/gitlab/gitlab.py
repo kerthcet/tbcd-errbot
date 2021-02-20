@@ -79,10 +79,10 @@ class Gitlab(BotPlugin):
         body['transformer']['iacRepoUrl'] = KID_IAC_URL
 
     def get_group_repo(self, body):
-        repo = PROJECT_REPO_MAPS[self.get_group_namespace(body)]
-        if repo == "":
-            return DEFAULT_PROJECT_REPO
-        return repo
+        repo = PROJECT_REPO_MAPS.get(self.get_group_namespace(body))
+        if repo:
+            return repo
+        return DEFAULT_PROJECT_REPO
 
     def get_group_namespace(self, body):
         return body["project"]["namespace"]
