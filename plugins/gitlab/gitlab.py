@@ -8,6 +8,11 @@ TINY_NS = "Tiny"
 TINY_IAC_URL = 'git@git.kid17.com:tiny/iac.git'
 KID_IAC_URL = 'git@git.kid17.com:ops/iac.git'
 
+DEFAULT_PROJECT_REPO = 'registry.cn-shanghai.aliyuncs.com/kid17_backend',
+PROJECT_REPO_MAPS = {
+    'Tiny': 'registry.cn-shanghai.aliyuncs.com/tiny-repo',
+}
+
 
 class Gitlab(BotPlugin):
     @webhook("/ci/<action>/", raw=True)
@@ -31,6 +36,8 @@ class Gitlab(BotPlugin):
             body["transformer"]["version"] = version
             body["transformer"]["ns"] = self.get_ns(version)
             body["transformer"]["message"] = self.get_message(body)
+
+            body['transformer']['imageRepoUrl'] = self.get_group_repo(body)
             resp = self.post_tekton(body)
 
             return {"code": 0, "msg": "success", "data": resp}
@@ -65,12 +72,20 @@ class Gitlab(BotPlugin):
         body['transformer']['checkout_sha'] = body['checkout_sha'][0:10]
 
     def get_iac_url(self, body):
-        namespace = body['project']['namespace']
-        if namespace == TINY_NS:
+        if self.get_group_namespace(body) == TINY_NS:
             body['transformer']['iacRepoUrl'] = TINY_IAC_URL
             return
 
         body['transformer']['iacRepoUrl'] = KID_IAC_URL
+
+    def get_group_repo(self, body):
+        repo = PROJECT_REPO_MAPS[self.get_group_namespace(body)]
+        if repo == "":
+            return DEFAULT_PROJECT_REPO
+        return repo
+
+    def get_group_namespace(self, body):
+        return body["project"]["namespace"]
 
     def get_bumpversion(self, body):
         length = len(body['commits'])
