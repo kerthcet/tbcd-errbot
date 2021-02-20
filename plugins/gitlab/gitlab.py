@@ -8,7 +8,7 @@ TINY_NS = "Tiny"
 TINY_IAC_URL = 'git@git.kid17.com:tiny/iac.git'
 KID_IAC_URL = 'git@git.kid17.com:ops/iac.git'
 
-DEFAULT_PROJECT_REPO = 'registry.cn-shanghai.aliyuncs.com/kid17_backend',
+DEFAULT_PROJECT_REPO = 'registry.cn-shanghai.aliyuncs.com/kid17_backend'
 PROJECT_REPO_MAPS = {
     'Tiny': 'registry.cn-shanghai.aliyuncs.com/tiny-repo',
 }
