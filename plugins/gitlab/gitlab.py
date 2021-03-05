@@ -62,7 +62,7 @@ class Gitlab(BotPlugin):
     def get_message(self, body):
         res = ""
 
-        for i in range(len(body['commits']) - 1, -1, -1):
+        for i in range(len(body['commits'])):
             m = body['commits'][i]
             res += m['message'].split("\n")[0] + '    \n'
 
@@ -89,7 +89,7 @@ class Gitlab(BotPlugin):
 
     def get_bumpversion(self, body):
         length = len(body['commits'])
-        for i in range(length - 1, -1, -1):
+        for i in range(length):
             msg = body['commits'][i]
 
             for m in msg['message'].split('\n'):
