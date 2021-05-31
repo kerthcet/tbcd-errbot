@@ -62,7 +62,7 @@ class Gitlab(BotPlugin):
     def get_message(self, body):
         res = ""
 
-        for m in reversed(body['commits']):
+        for m in body['commits']:
             res += m['message'].split("\n")[0] + '    \n'
 
         return res
@@ -87,7 +87,7 @@ class Gitlab(BotPlugin):
         return body["project"]["namespace"]
 
     def get_bumpversion(self, body):
-        for msg in reversed(body['commits']):
+        for msg in body['commits']:
             for m in msg['message'].split('\n'):
                 if BUMP_KEY_WORDS in m:
                     return m.split(" ")[-1], True
