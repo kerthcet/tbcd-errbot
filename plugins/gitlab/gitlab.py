@@ -2,7 +2,7 @@ from errbot import BotPlugin, webhook
 import requests
 import json
 
-TEKTON_URL = "http://el-tbcd:8080"
+TEKTON_URL = "http://el-tekton-ci:8080"
 BUMP_KEY_WORDS = 'Bump version'
 TINY_NS = "Tiny"
 TINY_IAC_URL = 'git@git.kid17.com:tiny/iac.git'
