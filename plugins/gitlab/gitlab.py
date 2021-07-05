@@ -89,7 +89,8 @@ class Gitlab(BotPlugin):
             if sha == msg['id']:
                 m = msg['message']
                 if BUMP_KEY_WORDS in m.strip('\n'):
-                    return m.split(" ")[-1], True
+                    version = m.split(" ")[-1]
+                    return version.lstrip().rstrip(), True
 
         return "", False
 
