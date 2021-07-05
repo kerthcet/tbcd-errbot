@@ -87,6 +87,7 @@ class Gitlab(BotPlugin):
         sha = body['checkout_sha']
         for msg in body['commits']:
             if sha == msg['id']:
+                m = msg['message']
                 if BUMP_KEY_WORDS in m.strip('\n'):
                     return m.split(" ")[-1], True
 
