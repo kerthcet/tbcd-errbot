@@ -21,7 +21,6 @@ class Gitlab(BotPlugin):
 
         if action == "trigger":
             body["transformer"] = {}
-            self.trim_checkout_sha(body)
             self.lower_repository_name(body)
             self.get_iac_url(body)
 
@@ -62,13 +61,11 @@ class Gitlab(BotPlugin):
     def get_message(self, body):
         res = ""
 
-        for m in body['commits']:
-            res += m['message'].split("\n")[0] + '    \n'
+        for i in range(len(body['commits']) - 1, 0, -1):
+            m = body['commits'][i]
+            res += m['message'].strip('\n') + '    \n'
 
         return res
-
-    def trim_checkout_sha(self, body):
-        body['transformer']['checkout_sha'] = body['checkout_sha'][0:10]
 
     def get_iac_url(self, body):
         if self.get_group_namespace(body) == TINY_NS:
@@ -87,9 +84,10 @@ class Gitlab(BotPlugin):
         return body["project"]["namespace"]
 
     def get_bumpversion(self, body):
+        sha = body['checkout_sha']
         for msg in body['commits']:
-            for m in msg['message'].split('\n'):
-                if BUMP_KEY_WORDS in m:
+            if sha == msg['id']:
+                if BUMP_KEY_WORDS in m.strip('\n'):
                     return m.split(" ")[-1], True
 
         return "", False
