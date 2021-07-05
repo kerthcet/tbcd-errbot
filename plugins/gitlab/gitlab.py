@@ -5,12 +5,12 @@ import json
 TEKTON_URL = "http://el-tekton-ci:8080"
 BUMP_KEY_WORDS = 'Bump version'
 TINY_NS = "Tiny"
-TINY_IAC_URL = 'git@git.kid17.com:tiny/iac.git'
-KID_IAC_URL = 'git@git.kid17.com:ops/iac.git'
+TINY_IAC_URL = ''
+KID_IAC_URL = ''
 
-DEFAULT_PROJECT_REPO = 'registry.cn-shanghai.aliyuncs.com/kid17_backend'
+DEFAULT_PROJECT_REPO = ''
 PROJECT_REPO_MAPS = {
-    'Tiny': 'registry.cn-shanghai.aliyuncs.com/tiny-repo',
+    'Tiny': '',
 }
 
 
